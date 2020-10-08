@@ -3,8 +3,10 @@ import './App.css';
 
 import Button from './Components/Button'
 import Input from './Components/Input'
+import Image from './Components/Image'
 
 function App() {
+
   //membuat variabel input
   const [input, setInput] = useState('')
   //membuat variabel array to do list
@@ -14,6 +16,7 @@ function App() {
   const onChange = e => {
     setInput(e.target.value)
   }
+
   //fungsi untuk menghandle click pada button
   const onClick = () => {
     //menambahkan nilai input ke array to do list
@@ -22,11 +25,19 @@ function App() {
     setInput('')
   }
 
+  const onDelete = (index) => {
+    let newToDoList = []
+    toDo.map((item, idx) => {
+      if(idx != index) newToDoList.append(item) 
+    })
+    setToDo(newToDoList)
+  }
+
   //fungsi yang akan di eksekusi saat nilai variabel to do
   //berubah
-  useEffect(() => {
-    alert('Kamu baru saja menambahkan item baru ke to do list.')
-  },[toDo])
+  // useEffect(() => {
+  //   alert('Kamu baru saja menambahkan item baru ke to do list.')
+  // },[toDo])
 
   return (
     <div className="App">
@@ -35,7 +46,7 @@ function App() {
         {/* Render Array To Do List */}
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           {toDo.map((item, index) => (
-            <h2 style={{ margin: '1em' }}>{index + 1}. {item}</h2>
+            <h2 style={{ margin: '1em' }}>{index + 1}. {item} <button onClick={onDelete}>Delete</button></h2>
           ))}
         </div>
 
