@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import List from './Components/List'
 import Info from './Components/Info'
+import HttpReq from './Components/HttpReq'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Info} />
           <Route exact path='/add' component={List} />
+          <Route exact path='/test-http/:id' component={HttpReq} />
         </Switch>
       </Paper>
     </div>

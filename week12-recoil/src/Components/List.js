@@ -14,14 +14,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { ListData } from '../Recoil/Atoms/List'
-import { useRecoilState } from 'recoil'
+import { isiList } from '../Recoil/Selectors/List'
+import { useRecoilState, useRecoilValue } from 'recoil'
+
 
 const List = props => {
 
     const [state, setState] = useState({
         isAdding: false, input: ''
     })
+    //atom
     const [list, setList] = useRecoilState(ListData)
+
+    //selector
+    const listData = useRecoilValue(isiList)
 
     const handleClose = () => {
         setState({ ...state, isAdding: false, input: '' })
@@ -57,6 +63,10 @@ const List = props => {
                 </ListWrapper>
                 <Button color='primary' variant='contained' fullWidth onClick={handleOpen}>Add New Item</Button>
 
+                <Typography variant='h3'>
+                    {listData}
+                </Typography>
+
                 <Dialog
                     open={state.isAdding}
                     onClose={handleClose}
@@ -82,7 +92,7 @@ const List = props => {
             </Paper>
 
             <Link to='/'>
-                <Typography variant='body1' align='center' style={{marginTop:'1em'}}>
+                <Typography variant='body1' align='center' style={{ marginTop: '1em' }}>
                     Go to Home
                 </Typography>
             </Link>

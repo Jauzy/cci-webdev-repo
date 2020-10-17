@@ -8,11 +8,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import { ListData } from '../Recoil/Atoms/List'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { isiList } from '../Recoil/Selectors/List'
 
 const Info = props => {
 
     const [list, setList] = useRecoilState(ListData)
+
+    //selector
+    const listData = useRecoilValue(isiList)
 
     return (
         <Paper style={{ paddingTop: '1em' }}>
@@ -31,6 +35,9 @@ const Info = props => {
                     </Typography>
                 }
             </ListWrapper>
+            <Typography variant='h3'>
+                {listData}
+            </Typography>
             <Link to='/add'>
                 <Button variant='contained' fullWidth color='primary'>
                     Edit Todo List
