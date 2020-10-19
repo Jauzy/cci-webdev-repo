@@ -1,4 +1,5 @@
 let admins = []
+const jwt = require('jsonwebtoken')
 
 class AdminController {
     static register(req, res) {
@@ -20,7 +21,8 @@ class AdminController {
         if (index == -1) res.status(400).send({ message: 'Account not found!' })
         else if (admins[index].password != password) res.status(400).send({ message: 'Account not found!' })
         else {
-            res.send({ message: 'You Logged In!', data: admins[index] })
+            const token = jwt.sign({ id: admins[index].id, email: admins[index].email }, 'JWTSECRET')
+            res.send({ message: 'You Logged In!', data: admins[index], token })
         }
     }
 
@@ -37,12 +39,21 @@ class AdminController {
     }
 
     static getAdminData(req, res) {
-        const { id } = req.params
-        const index = admins.findIndex(admin => admin.id == id)
-        if (index == -1) res.status(400).send({ message: 'Account not found!' })
-        else {
-            res.send({ data: admins[index] })
-        }
+        const { token } = req.params
+        jwt.verify(token, 'JWTSECRET', function (err, decoded) {
+            if (err) console.log(err)
+            else {
+                const user = {
+                    email: decoded.email,
+                    id: decoded.id,
+                }
+                const index = admins.findIndex(admin => admin.id == user.id)
+                if (index == -1) res.status(400).send({ message: 'Account not found!' })
+                else {
+                    res.send({ data: admins[index] })
+                }
+            }
+        });
     }
 
     static deleteAccount(req, res) {
